@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://restcountries.com/v3.1';
 
-const getAllCountriesFiltered = async (name, maxPopulation, dir) => {
+const getAllCountriesFiltered = async (name, maxPopulation, dir, maxEntries) => {
     let data = name ? await getAllCountriesByName(name) : await getAllCountries();
 
     if(maxPopulation) {
@@ -11,6 +11,10 @@ const getAllCountriesFiltered = async (name, maxPopulation, dir) => {
 
     if(dir) {
         data = sortByName(data, dir);
+    }
+
+    if(maxEntries && !Number.isNaN(maxEntries)) {
+        data = limit(data, maxEntries);
     }
 
     return data;
@@ -32,6 +36,10 @@ const filterByPopulation = (data, maxPopulation) => {
 const sortByName = (data, dir) => {
     const desc = String(dir).toLowerCase() === 'descend';
     return data.sort((a, b) => desc ? a.name.common > b.name.common : a.name.common < b.name.common);
+}
+
+const limit = (data, maxEntries) => {
+    return data.slice(0, maxEntries);
 }
 
 const getAllCountriesByName = async (name) => {

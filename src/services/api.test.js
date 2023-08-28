@@ -81,6 +81,15 @@ describe("countryService", () => {
     expect(countries).toEqual(data.reverse());
   });
 
+  it("getAllCountriesFiltered should limit countries", async () => {
+    const data = Array(10).fill({});
+
+    axios.get.mockResolvedValueOnce({ data });
+
+    const countries = await getAllCountriesFiltered("", "", "", "1");
+    expect(countries.length).toEqual(1);
+  });
+
   it("getAllCountriesFiltered should handle errors", async () => {
     axios.get.mockRejectedValueOnce(new Error());
 

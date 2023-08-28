@@ -7,7 +7,7 @@ function App() {
     name: "",
     population: "",
     dir: "",
-    field4: "",
+    limit: "",
   });
 
   const handleInputChange = (e) => {
@@ -19,9 +19,9 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
-    const {name, population, dir} = formData;
+    const {name, population, dir, limit} = formData;
     e.preventDefault();
-    await getAllCountriesFiltered(name, population, dir);
+    await getAllCountriesFiltered(name, population, dir, limit);
   };
 
   return (
@@ -54,9 +54,9 @@ function App() {
           />
           <input
             type="text"
-            name="field4"
-            placeholder="Field 4"
-            value={formData.field4}
+            name="limit"
+            placeholder="Limit"
+            value={formData.limit}
             onChange={handleInputChange}
             className="business-input"
           />
