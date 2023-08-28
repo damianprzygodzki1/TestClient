@@ -11,6 +11,16 @@ const getAllCountries = async () => {
     }
 };
 
+const getAllCountriesByName = async (name) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/name/${name}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export {
-    getAllCountries
+    getAllCountries,
+    getAllCountriesByName
 };
