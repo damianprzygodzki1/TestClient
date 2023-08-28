@@ -1,11 +1,11 @@
 import "./App.css";
 import React, { useState } from "react";
-import { getAllCountries, getAllCountriesByName } from "./services/api";
+import { getAllCountriesFiltered } from "./services/api";
 
 function App() {
   const [formData, setFormData] = useState({
     name: "",
-    field2: "",
+    population: "",
     field3: "",
     field4: "",
   });
@@ -19,12 +19,9 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
+    const {name, population} = formData;
     e.preventDefault();
-    if(formData.name){
-      await getAllCountriesByName(formData.name);
-    } else {
-      await getAllCountries();
-    }
+    await getAllCountriesFiltered(name, population);
   };
 
   return (
@@ -35,15 +32,15 @@ function App() {
             type="text"
             name="name"
             placeholder="Filter by name"
-            value={formData.field1}
+            value={formData.name}
             onChange={handleInputChange}
             className="business-input"
           />
           <input
             type="text"
-            name="field2"
-            placeholder="Field 2"
-            value={formData.field2}
+            name="population"
+            placeholder="Filter by population"
+            value={formData.population}
             onChange={handleInputChange}
             className="business-input"
           />
