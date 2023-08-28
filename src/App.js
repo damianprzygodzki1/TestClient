@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { getAllCountriesFiltered } from "./services/api";
+import { CountryTable } from "./components/CountryTable";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ function App() {
     dir: "",
     limit: "",
   });
+
+  const [countries, setCountries] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,9 +22,11 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
-    const {name, population, dir, limit} = formData;
     e.preventDefault();
-    await getAllCountriesFiltered(name, population, dir, limit);
+
+    const {name, population, dir, limit} = formData;
+    const data = await getAllCountriesFiltered(name, population, dir, limit);
+    setCountries(data);
   };
 
   return (
@@ -65,6 +70,7 @@ function App() {
           </button>
         </form>
       </div>
+      <CountryTable data={countries} />
     </div>
   );
 }

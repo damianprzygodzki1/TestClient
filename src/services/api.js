@@ -35,7 +35,7 @@ const filterByPopulation = (data, maxPopulation) => {
 
 const sortByName = (data, dir) => {
     const desc = String(dir).toLowerCase() === 'descend';
-    return data.sort((a, b) => desc ? a.name.common > b.name.common : a.name.common < b.name.common);
+    return data.sort((a, b) => a.name.common < b.name.common ? (desc ? 1 : -1) : (desc ? -1 : 1));
 }
 
 const limit = (data, maxEntries) => {
