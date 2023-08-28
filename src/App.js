@@ -6,7 +6,7 @@ function App() {
   const [formData, setFormData] = useState({
     name: "",
     population: "",
-    field3: "",
+    dir: "",
     field4: "",
   });
 
@@ -19,9 +19,9 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
-    const {name, population} = formData;
+    const {name, population, dir} = formData;
     e.preventDefault();
-    await getAllCountriesFiltered(name, population);
+    await getAllCountriesFiltered(name, population, dir);
   };
 
   return (
@@ -46,9 +46,9 @@ function App() {
           />
           <input
             type="text"
-            name="field3"
-            placeholder="Field 3"
-            value={formData.field3}
+            name="dir"
+            placeholder="Direction of sorting"
+            value={formData.dir}
             onChange={handleInputChange}
             className="business-input"
           />

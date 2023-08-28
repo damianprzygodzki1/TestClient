@@ -62,6 +62,25 @@ describe("countryService", () => {
     expect(countries.length).toEqual(2);
   });
 
+  it("getAllCountriesFiltered should sort countries by common name", async () => {
+    const data = [
+      {
+        name: { common: "Aa" },
+      },
+      {
+        name: { common: "Ba" },
+      },
+      {
+        name: { common: "Ca" },
+      },
+    ];
+
+    axios.get.mockResolvedValueOnce({ data });
+
+    const countries = await getAllCountriesFiltered("", "", "descend");
+    expect(countries).toEqual(data.reverse());
+  });
+
   it("getAllCountriesFiltered should handle errors", async () => {
     axios.get.mockRejectedValueOnce(new Error());
 
