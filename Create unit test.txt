@@ -1,0 +1,106 @@
+Generate unit test for react component 
+
+export const CountryTable = ({data}) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <strong>Common Name</strong>
+          </th>
+          <th>
+            <strong>Official Name</strong>
+          </th>
+          <th>
+            <strong>Flag</strong>
+          </th>
+          <th>
+            <strong>Population</strong>
+          </th>
+          <th>
+            <strong>Capital(s)</strong>
+          </th>
+          <th>
+            <strong>Region</strong>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((country) => (
+          <tr key={country.cca2}>
+            <td>{country.name.common}</td>
+            <td>{country.name.official}</td>
+            <td>
+              <img
+                src={country.flags.png}
+                alt={country.flags.alt}
+                width="100"
+              />
+            </td>
+            <td>{country.population}</td>
+            <td>{Array.isArray(country.capital) ? country.capital.join(', ') : country.capital}</td>
+            <td>{country.region}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+ChatGPT
+To test the CountryTable component, you can use the react-testing-library alongside jest. Here's a simple unit test for the CountryTable component:
+
+Check if the component renders without crashing.
+Check if the component renders the correct number of rows based on the input data.
+Check if the component renders the correct content for a given input.
+Here's the code for these tests:
+
+jsx
+Copy code
+import React from 'react';
+import { render } from '@testing-library/react';
+import { CountryTable } from './path-to-your-component-file';
+
+describe('<CountryTable />', () => {
+  const mockData = [
+    {
+      cca2: 'US',
+      name: { common: 'USA', official: 'United States of America' },
+      flags: { png: 'path-to-us-flag.png', alt: 'US Flag' },
+      population: 331002651,
+      capital: 'Washington, D.C.',
+      region: 'Americas'
+    },
+    // ... Add more countries if needed for more comprehensive testing.
+  ];
+
+  it('renders without crashing', () => {
+    render(<CountryTable data={mockData} />);
+  });
+
+  it('renders the correct number of rows based on the input data', () => {
+    const { getAllByRole } = render(<CountryTable data={mockData} />);
+    const rows = getAllByRole('row');
+    // +1 for the header row
+    expect(rows.length).toBe(mockData.length + 1);
+  });
+
+  it('renders the correct content for a given input', () => {
+    const { getByText, getByAltText } = render(<CountryTable data={mockData} />);
+    
+    // Check the presence of country details in the rendered component
+    expect(getByText('USA')).toBeInTheDocument();
+    expect(getByText('United States of America')).toBeInTheDocument();
+    expect(getByAltText('US Flag')).toBeInTheDocument();
+    expect(getByText('331002651')).toBeInTheDocument();
+    expect(getByText('Washington, D.C.')).toBeInTheDocument();
+    expect(getByText('Americas')).toBeInTheDocument();
+  });
+});
+Note:
+
+Update the import path of CountryTable based on where your component file is relative to the test file.
+The test data (mockData) is just a sample. Depending on how comprehensive you want your tests to be, you can add more data or test additional aspects of your component.
+You might also want to install and set up jest and react-testing-library if you haven't already.
+
+
+
